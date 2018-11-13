@@ -8,7 +8,6 @@ flask = "*"
 gunicorn = "*"
 connexion = "*"
 selinon = {git = "https://github.com/selinon/selinon"}
-demo_worker = {git = "https://github.com/selinon/demo-worker"}
 celery = ">=4"
 pymongo = "*"
 sqlalchemy = "*"
