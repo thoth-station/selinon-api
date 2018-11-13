@@ -29,18 +29,13 @@ def get_flows():
 
     :return: a list of flows available in Selinon configuration.
     """
-    from demo_worker import get_config_files
+    from thoth_worker import get_config_files
     from selinon import Config
 
     Config.set_config_yaml(*get_config_files())
     return {"flows": Config.flows}
 
 
-def post_travis_org_logs(organization):
-    """Scan for registered repos under organization and gather build logs repos from them."""
-    return post_run_flow('travis_org_logs', {'organization': organization})
-
-
-def post_travis_repo_logs(organization, repo):
-    """Gather logs for a project given by organization/repo."""
-    return post_run_flow('travis_repo_logs', {'organization': organization, 'repo': repo})
+def post_sync():
+    """Perform sync to the graph database."""
+    return post_run_flow('sync', {})
