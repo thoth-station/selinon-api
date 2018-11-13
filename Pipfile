@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+gunicorn = "*"
+connexion = "*"
+selinon = {git = "https://github.com/selinon/selinon"}
+demo_worker = {git = "https://github.com/selinon/demo-worker"}
+celery = ">=4"
+pymongo = "*"
+sqlalchemy = "*"
+sqlalchemy-utils = "*"
+redis = "*"
+"boto3" = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"

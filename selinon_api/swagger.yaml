@@ -1,0 +1,89 @@
+swagger: "2.0"
+info:
+  title: API server for Selinon demo
+  version: "0.1"
+basePath: "/api/v1/"
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /run-flow:
+    post:
+      tags: [Flow]
+      operationId: selinon_api.api_v1.post_run_flow
+      summary: Run a flow.
+      parameters:
+        - $ref: "#/parameters/flow_name"
+        - $ref: "#/parameters/node_args"
+      responses:
+        201:
+          description: The given flow was scheduled.
+
+  /flows:
+    get:
+      tags: [Flow]
+      operationId: selinon_api.api_v1.get_flows
+      summary: Get available flows.
+      responses:
+        200:
+          description: Listing of available flows.
+
+  /travis/{organization}/logs:
+    post:
+      tags: [Travis CI]
+      operationId: selinon_api.api_v1.post_travis_org_logs
+      summary: Gather logs for active repos in Travis CI for the given organization.
+      parameters:
+        - name: organization
+          in: path
+          required: true
+          description: Organization name for which logs should be gathered.
+          type: string
+      responses:
+        201:
+          description: The given logs gathering for active repos was scheduled.
+
+  /travis/{organization}/{repo}/logs:
+    post:
+      tags: [Travis CI]
+      operationId: selinon_api.api_v1.post_travis_repo_logs
+      summary: Gather logs for active repos in Travis CI for the given repository.
+      parameters:
+        - name: organization
+          in: path
+          required: true
+          description: Organization name for which logs should be gathered.
+          type: string
+        - name: repo
+          in: path
+          required: true
+          description: Repository for which logs should be gathered.
+          type: string
+      responses:
+        201:
+          description: The given logs gathering for the given repo was scheduled.
+
+parameters:
+  flow_name:
+    name: flow_name
+    in: query
+    required: true
+    description: Flow name
+    type: string
+  node_args:
+    name: node_args
+    in: body
+    required: false
+    description: Flow arguments
+    schema:
+      $ref: "#/definitions/QueryKwargs"
+
+definitions:
+  QueryKwargs:
+    type: object
+    additionalProperties: true
+    example:
+      foo: "bar"
+

@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: Template
+labels:
+  template: api-deploymentconfig
+  selinon: 1.0.0
+metadata:
+  name: api-deploymentconfig
+  annotations:
+    description: Selinon API
+    openshift.io/display-name: 'Selinon: API'
+    version: 1.0.0
+    tags: poc,selinon,api
+    template.openshift.io/documentation-url: https://github.com/selinon/
+    template.openshift.io/long-description: Selinon API deployment configuration template.
+    template.openshift.io/provider-display-name: Fridolin Pokorny
+
+objects:
+
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: api
+    labels:
+      app: selinon
+      component: api
+  spec:
+    to:
+      kind: Service
+      name: api
+
+- kind: Service
+  apiVersion: v1
+  metadata:
+    labels:
+      service: api
+      app: selinon
+      component: api
+    name: api
+  spec:
+    ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      service: api
+
+
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      service: api
+      app: selinon
+      component: api
+    name: api
+  spec:
+    replicas: 1
+    selector:
+      service: api
+    template:
+      metadata:
+        labels:
+          service: api
+      spec:
+        containers:
+        - env:
+          - name: BROKER_URL
+            valueFrom:
+              configMapKeyRef:
+                name: selinon
+                key: broker-url
+          name: api
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "125m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: '/'
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 10
+          livenessProbe:
+            # TODO: create liveness
+            httpGet:
+              path: '/'
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 60
+            timeoutSeconds: 10
+    test: false
+    triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - api
+        from:
+          kind: ImageStreamTag
+          name: 'api:latest'
