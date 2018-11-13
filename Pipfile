@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 flask = "*"
 gunicorn = "*"
-connexion = "*"
+connexion = {extras = ["swagger-ui"], version = "*"}
 selinon = {git = "https://github.com/selinon/selinon"}
 celery = ">=4"
 pymongo = "*"
