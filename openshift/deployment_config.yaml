@@ -45,7 +45,7 @@ objects:
       service: api
 
 
-- apiVersion: v1
+- apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
   metadata:
     labels:
