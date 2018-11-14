@@ -38,4 +38,4 @@ def get_flows():
 
 def post_sync():
     """Perform sync to the graph database."""
-    return post_run_flow('sync', {})
+    return post_run_flow('sync_flow', {})
