@@ -11,6 +11,9 @@
     API_APP_SECRET: secret
     S3_KEY_ID: "{{ lookup('env','S3_KEY_ID') }}"
     S3_SECRET_KEY: "{{ lookup('env','S3_SECRET_KEY') }}"
+    CEPH_BUCKET: "{{ lookup('env','CEPH_BUCKET') }}"
+    CEPH_BUCKET_PREFIX: "{{ lookup('env','CEPH_BUCKET_PREFIX') }}"
+    S3_ENDPOINT_URL: "{{ lookup('env','S3_ENDPOINT_URL') }}"
     MONGO_PASSWORD: selinon
     MONGO_ADMIN_PASSWORD: admin
     POSTGRES_PASSWORD: selinon
@@ -28,7 +31,6 @@
     RABBITMQ_HOST: rabbitmq
     RABBITMQ_PORT: '5672'
     RESULT_BACKEND_URL: 'redis://redis:6379/0'
-
     # Configure databases you would like to have deployed below.
     # Redis is our result backend.
     DEPLOY_REDIS: true
