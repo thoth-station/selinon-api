@@ -8,7 +8,7 @@
 import os
 import connexion
 from flask import redirect
-from selinon_api import defaults
+from thoth.selinon_api import defaults
 
 application = connexion.App(__name__)
 application.add_api(defaults.SWAGGER_YAML_PATH)

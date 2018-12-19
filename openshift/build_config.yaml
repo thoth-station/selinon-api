@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: api-buildconfig
+  name: selinon-api-buildconfig
   labels:
     app: selinon
-    template: api-buildconfig
+    template: selinon-api-buildconfig
     selinon: 1.0.0
   annotations:
     description: 
@@ -19,14 +19,14 @@ objects:
 - apiVersion: build.openshift.io/v1
   kind: BuildConfig
   metadata:
-    name: api
+    name: selinon-api
     labels:
       app: selinon
   spec:
     output:
       to:
         kind: ImageStreamTag
-        name: "api:${IMAGE_STREAM_TAG}"
+        name: "selinon-api:${IMAGE_STREAM_TAG}"
     source:
       type: Git
       git:
@@ -52,7 +52,7 @@ parameters:
   displayName: Git Repository
   required: true
   name: GITHUB_URL
-  value: 'https://github.com/fridex/thoth-selinon-api'
+  value: 'https://github.com/thoth-station/selinon-api'
 
 - description: Git reference to be used for Selinon API
   displayName: Git Reference
