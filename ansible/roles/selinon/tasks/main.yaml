@@ -99,10 +99,16 @@
     command: oc create --namespace {{ SELINON_NAMESPACE }} \
       --filename https://raw.githubusercontent.com/thoth-station/selinon-worker/master/openshift/deployment_config.yaml
 
+  # TODO: move S3 configuration into configmap/secrets
   - name: "Create worker DeploymentConfig from template"
     command: oc new-app --template {{ SELINON_NAMESPACE }}/worker-deploymentconfig \
       -p WORKER_NAME='worker' \
-      -p SELINON_DISPATCHER='0'
+      -p SELINON_DISPATCHER='0' \
+      -p THOTH_CEPH_BUCKET="{{ CEPH_BUCKET }}" \
+      -p THOTH_CEPH_BUCKET_PREFIX="{{ CEPH_BUCKET_PREFIX }}" \
+      -p THOTH_S3_ENDPOINT_URL="{{ S3_ENDPOINT_URL }}" \
+      -p THOTH_S3_KEY_ID="{{ S3_KEY_ID }}" \
+      -p THOTH_S3_SECRET_KEY="{{ S3_SECRET_KEY }}"
 
   - name: "Create worker-dispatcher DeploymentConfig from template"
     command: oc new-app --template {{ SELINON_NAMESPACE }}/worker-deploymentconfig \

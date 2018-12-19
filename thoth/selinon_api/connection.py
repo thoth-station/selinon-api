@@ -24,7 +24,7 @@ class Connection(object):
         :return: celery.AsyncResult describing dispatcher task
         """
         if not cls._connected:
-            from thoth_worker import init
+            from thoth.worker import init
             # It is not necessary to connect to result backend, we just publish messages
             init(with_result_backend=False)
             cls._connected = True
