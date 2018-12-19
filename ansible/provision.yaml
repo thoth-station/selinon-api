@@ -1,0 +1,44 @@
+---
+- name: Playbook to provision Selinon demo
+    - openshift
+    - selinon
+
+  hosts: localhost
+  vars:
+    openshift_master_url: "{{ lookup('env','OCP_URL') }}"
+    token: "{{ lookup('env','OCP_TOKEN') }}"
+    SELINON_NAMESPACE: "{{ lookup('env','SELINON_NAMESPACE') }}"
+    API_APP_SECRET: secret
+    S3_KEY_ID: "{{ lookup('env','S3_KEY_ID') }}"
+    S3_SECRET_KEY: "{{ lookup('env','S3_SECRET_KEY') }}"
+    MONGO_PASSWORD: selinon
+    MONGO_ADMIN_PASSWORD: admin
+    POSTGRES_PASSWORD: selinon
+    POSTGRESQL_USER: selinon
+    POSTGRESQL_DATABASE: selinon
+    POSTGRESQL_PORT: 5432
+    POSTGRESQL_HOST: postgres
+    PGBOUNCER_HOST: pgbouncer
+    PGBOUNCER_PORT: 6432
+    MONGODB_USER: mongo
+    MONGODB_DATABASE: mongo
+    REDIS_PORT: '6379'
+    REDIS_HOST: redis
+    REDIS_DATABASE: redis
+    RABBITMQ_HOST: rabbitmq
+    RABBITMQ_PORT: '5672'
+    RESULT_BACKEND_URL: 'redis://redis:6379/0'
+
+    # Configure databases you would like to have deployed below.
+    # Redis is our result backend.
+    DEPLOY_REDIS: true
+    DEPLOY_POSTGRESQL: false
+    DEPLOY_MONGODB: false
+    # We use Minio S3 in demo.
+    DEPLOY_MINIO: true
+    DEPLOY_FLOWER: false
+
+  gather_facts: false
+  connection: local
+  roles:
+  - role: selinon

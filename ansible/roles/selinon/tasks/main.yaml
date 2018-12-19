@@ -1,0 +1,136 @@
+---
+  - name: "Make sure Selinon project with name {{ SELINON_NAMESPACE }} exists"
+    command: oc new-project {{ SELINON_NAMESPACE }}
+    ignore_errors: true
+
+  - name: "Make sure we use project {{ SELINON_NAMESPACE }}"
+    command: oc project {{ SELINON_NAMESPACE }}
+
+  # Deployment config and secrets
+
+  - name: "Create secrets template"
+    command: oc create --namespace {{ SELINON_NAMESPACE }} --filename ../openshift/secret.yaml
+
+  - name: "Create secrets template"
+    command: oc new-app --template {{ SELINON_NAMESPACE }}/selinon-secret \
+      -p API_APP_SECRET="{{ API_APP_SECRET }}" \
+      -p S3_KEY_ID="{{ S3_KEY_ID }}" \
+      -p S3_SECRET_KEY="{{ S3_SECRET_KEY }}" \
+      -p MONGO_PASSWORD="{{ MONGO_PASSWORD }}" \
+      -p MONGO_ADMIN_PASSWORD="{{ MONGO_ADMIN_PASSWORD }}" \
+      -p POSTGRES_PASSWORD="{{ POSTGRES_PASSWORD }}" \
+
+  - name: "Create ConfigMap template"
+    command: oc create --namespace {{ SELINON_NAMESPACE }} --filename ../openshift/configmap.yaml
+
+  - name: "Create ConfigMap from template"
+    command: oc new-app --template {{ SELINON_NAMESPACE }}/selinon-configmap \
+      -p POSTGRESQL_USER="{{ POSTGRESQL_USER }}" \
+      -p POSTGRESQL_DATABASE="{{ POSTGRESQL_DATABASE }}" \
+      -p POSTGRESQL_PORT="{{ POSTGRESQL_PORT }}" \
+      -p POSTGRESQL_HOST="{{ POSTGRESQL_HOST }}" \
+      -p PGBOUNCER_HOST="{{ PGBOUNCER_HOST }}" \
+      -p PGBOUNCER_PORT="{{ PGBOUNCER_PORT }}" \
+      -p MONGODB_USER="{{ MONGODB_USER }}" \
+      -p MONGODB_DATABASE="{{ MONGODB_DATABASE }}" \
+      -p REDIS_PORT="{{ REDIS_PORT }}" \
+      -p REDIS_HOST="{{ REDIS_HOST }}" \
+      -p REDIS_DATABASE="{{ REDIS_DATABASE }}" \
+      -p RABBITMQ_HOST="{{ RABBITMQ_HOST }}" \
+      -p RABBITMQ_PORT="{{ RABBITMQ_PORT }}" \
+      -p RESULT_BACKEND_URL="{{ RESULT_BACKEND_URL }}"
+
+  # Image streams for upstream images
+
+  - name: "Import Fedora s2i ImageStreamTags from upstream registry"
+    command: "oc tag --namespace {{ SELINON_NAMESPACE }} registry.fedoraproject.org/f26/s2i-base:latest f26-s2i:latest"
+
+  - name: "Import CentOS7 s2i ImageStreamTags from upstream registry"
+    command: "oc tag --namespace {{ SELINON_NAMESPACE }} docker.io/centos/python-36-centos7:latest python-36-centos7:latest"
+
+  - name: "Import CentOS7 ImageStreamTags from upstream registry"
+    command: "oc tag --namespace {{ SELINON_NAMESPACE }} docker.io/library/centos:7 centos:7"
+
+  - name: "Import RabbitMQ ImageStreamTags from upstream registry"
+    command: "oc tag --namespace {{ SELINON_NAMESPACE }} docker.io/library/rabbitmq:3.7.4-management rabbitmq:3.7.4-management"
+
+  # Image streams for our images
+
+  - name: "Create API ImageStream template"
+    command: oc create --namespace {{ SELINON_NAMESPACE }} \
+      --filename ../openshift/image_stream.yaml
+
+  - name: "Create API ImageStream from template"
+    command: oc new-app --template {{ SELINON_NAMESPACE }}/selinon-api-imagestream
+
+  - name: "Create worker ImageStream template"
+    command: oc create --namespace {{ SELINON_NAMESPACE }} \
+      --filename https://raw.githubusercontent.com/thoth-station/selinon-worker/master/openshift/image_stream.yaml
+
+  - name: "Create worker ImageStream from template"
+    command: oc new-app --template {{ SELINON_NAMESPACE }}/worker-imagestream
+
+  # Build configs for our apps
+
+  - name: "Create API BuildConfig template"
+    command: oc create --namespace {{ SELINON_NAMESPACE }} \
+      --filename ../openshift/build_config.yaml
+
+  - name: "Create API BuildConfig from template"
+    command: oc new-app --template {{ SELINON_NAMESPACE }}/selinon-api-buildconfig
+
+  - name: "Create worker BuildConfig template"
+    command: oc create --namespace {{ SELINON_NAMESPACE }} \
+      --filename https://raw.githubusercontent.com/thoth-station/selinon-worker/master/openshift/build_config.yaml
+
+  - name: "Create worker BuildConfig from template"
+    command: oc new-app --template {{ SELINON_NAMESPACE }}/worker-buildconfig
+
+  # Deployment configs for our apps
+
+  - name: "Create API DeploymentConfig template"
+    command: oc create --namespace {{ SELINON_NAMESPACE }} \
+      --filename ../openshift/deployment_config.yaml
+
+  - name: "Create API DeploymentConfig from template"
+    command: oc new-app --template {{ SELINON_NAMESPACE }}/selinon-api-deploymentconfig
+
+  - name: "Create worker DeploymentConfig template"
+    command: oc create --namespace {{ SELINON_NAMESPACE }} \
+      --filename https://raw.githubusercontent.com/thoth-station/selinon-worker/master/openshift/deployment_config.yaml
+
+  - name: "Create worker DeploymentConfig from template"
+    command: oc new-app --template {{ SELINON_NAMESPACE }}/worker-deploymentconfig \
+      -p WORKER_NAME='worker' \
+      -p SELINON_DISPATCHER='0'
+
+  - name: "Create worker-dispatcher DeploymentConfig from template"
+    command: oc new-app --template {{ SELINON_NAMESPACE }}/worker-deploymentconfig \
+      -p WORKER_NAME='worker-dispatcher' \
+      -p SELINON_DISPATCHER='1'
+
+  #
+  # RabbitMQ broker
+  #
+  - name: "Create RabbitMQ ImageStream template"
+    command: oc create --namespace {{ SELINON_NAMESPACE }} \
+      --filename ../openshift/rabbitmq_deployment_config.yaml
+
+  - name: "Create RabbitMQ DeploymentConfig from template"
+    command: oc new-app --template {{ SELINON_NAMESPACE }}/rabbitmq-deploymentconfig
+
+  #
+  # Storage and databases
+  #
+  - name: "Create Redis template"
+    command: oc create --namespace {{ SELINON_NAMESPACE }} \
+      --filename ../openshift/redis_deployment_config.yaml
+    when: DEPLOY_REDIS
+
+  - name: "Create Redis from template"
+    command: oc new-app --template {{ SELINON_NAMESPACE }}/redis-deploymentconfig
+    when: DEPLOY_REDIS
+
+  - name: "Import Redis ImageStreamTags from upstream registry"
+    command: oc tag --namespace {{ SELINON_NAMESPACE }} docker.io/library/redis:3.2.11 redis:3.2.11
+    when: DEPLOY_REDIS

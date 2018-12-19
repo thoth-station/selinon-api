@@ -12,7 +12,7 @@ paths:
   /run-flow:
     post:
       tags: [Flow]
-      operationId: selinon_api.api_v1.post_run_flow
+      operationId: thoth.selinon_api.api_v1.post_run_flow
       summary: Run a flow.
       parameters:
         - $ref: "#/parameters/flow_name"
@@ -24,7 +24,7 @@ paths:
   /flows:
     get:
       tags: [Flow]
-      operationId: selinon_api.api_v1.get_flows
+      operationId: thoth.selinon_api.api_v1.get_flows
       summary: Get available flows.
       responses:
         200:
@@ -33,7 +33,7 @@ paths:
   /sync:
     post:
       tags: [Thoth Graph database]
-      operationId: selinon_api.api_v1.post_sync
+      operationId: thoth.selinon_api.api_v1.post_sync
       summary: Run a graph database sync.
       responses:
         201:

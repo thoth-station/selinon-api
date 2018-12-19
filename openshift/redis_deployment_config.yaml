@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: Template
+labels:
+  template: redis-deploymentconfig
+  selinon: 1.0.0
+metadata:
+  name: redis-deploymentconfig
+  annotations:
+    description: Selinon Redis
+    openshift.io/display-name: 'Selinon: Redis'
+    version: 1.0.0
+    tags: poc,selinon,redis
+    template.openshift.io/documentation-url: https://github.com/selinon/
+    template.openshift.io/long-description: Selinon Redis deployment configuration template.
+    template.openshift.io/provider-display-name: Fridolin Pokorny
+
+objects:
+
+- kind: Service
+  apiVersion: v1
+  metadata:
+    labels:
+      service: redis
+      app: selinon-storages
+      component: redis
+    name: redis
+  spec:
+    ports:
+    - port: 6379
+      protocol: TCP
+      targetPort: 6379
+      name: redis
+    selector:
+      service: redis
+
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      service: redis
+      app: selinon-storages
+      component: redis
+    name: redis
+  spec:
+    replicas: 1
+    selector:
+      service: redis
+    template:
+      metadata:
+        labels:
+          service: redis
+      spec:
+        containers:
+        - env:
+          name: redis
+          ports:
+            - containerPort: 6379
+              protocol: TCP
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "750m"
+          readinessProbe:
+            tcpSocket:
+              port: 6379
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 6379
+            initialDelaySeconds: 10
+            periodSeconds: 60
+            timeoutSeconds: 10
+          volumeMounts:
+            - mountPath: /data
+              name: redis-volume
+        volumes:
+        - name: redis-volume
+          emptyDir: {}
+    test: false
+    triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - redis
+        from:
+          kind: ImageStreamTag
+          name: 'redis:3.2.11'

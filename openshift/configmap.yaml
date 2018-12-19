@@ -1,0 +1,111 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: selinon-configmap
+  labels:
+    app: selinon
+    template: selinon-configmap
+  annotations:
+    description: Application deployment configuration.
+    openshift.io/display-name: Selinon Configmap
+    version: 1.0.0
+    tags: poc,selinon,configmap
+    template.openshift.io/documentation-url: https://github.com/selinon
+    template.openshift.io/long-description: Configuration used in Selinon deployment to OpenShift.
+    template.openshift.io/provider-display-name: Fridolin Pokorny
+
+objects:
+
+- kind: ConfigMap
+  apiVersion: v1
+  metadata:
+    name: selinon
+    labels:
+      app: selinon
+  data:
+    postgres-user: ${POSTGRESQL_USER}
+    postgres-database: ${POSTGRESQL_DATABASE}
+    postgres-port: ${POSTGRESQL_PORT}
+    postgres-host: ${POSTGRESQL_HOST}
+    postgres-ssl: disable
+    pgbouncer-host: ${PGBOUNCER_HOST}
+    pgbouncer-port: ${PGBOUNCER_PORT}
+    mongo-user: ${MONGODB_USER}
+    mongo-database: ${MONGODB_DATABASE}
+    redis-port: ${REDIS_PORT}
+    redis-host: ${REDIS_HOST}
+    redis-database: ${REDIS_DATABASE}
+    broker-url: amqp://${RABBITMQ_HOST}:${RABBITMQ_PORT}
+    result-backend-url: ${RESULT_BACKEND_URL}
+
+parameters:
+  - description: RabbitMQ host.
+    displayName: RabbitMQ host.
+    required: true
+    name: RABBITMQ_HOST
+
+  - description: RabbitMQ port.
+    displayName: RabbitMQ port.
+    required: true
+    name: RABBITMQ_PORT
+
+  - description: Celery's result backend.
+    displayName: Celery result backend.
+    required: true
+    name: RESULT_BACKEND_URL
+
+  - description: PostgreSQL user.
+    displayName: PostgreSQL user.
+    required: true
+    name: POSTGRESQL_USER
+
+  - description: PosgtreSQL database name.
+    displayName: PostgreSQL database name.
+    required: true
+    name: POSTGRESQL_DATABASE
+
+  - description: PostgreSQL database port.
+    displayName: PostgreSQL database port.
+    required: true
+    name: POSTGRESQL_PORT
+
+  - description: PostgreSQL database host.
+    displayName: PostgreSQL database host.
+    required: true
+    name: POSTGRESQL_HOST
+
+  - description: pgbouncer host.
+    displayName: pgbouncer host.
+    required: true
+    name: PGBOUNCER_HOST
+
+  - description: pgbouncer port.
+    displayName: pgbouncer port.
+    required: true
+    name: PGBOUNCER_PORT
+
+  - description: MongoDB user.
+    displayName: MongoDB user.
+    required: true
+    name: MONGODB_USER
+
+  - description: MongoDB database name.
+    displayName: MongoDB database name.
+    required: true
+    name: MONGODB_DATABASE
+
+  - description: Redis port.
+    displayName: Redis port.
+    required: true
+    name: REDIS_PORT
+
+  - description: Redis host.
+    displayName: Redis host.
+    required: true
+    name: REDIS_HOST
+
+  - description: Redis database name.
+    displayName: Redis database name.
+    required: true
+    name: REDIS_DATABASE
+
