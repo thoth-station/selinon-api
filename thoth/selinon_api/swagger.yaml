@@ -39,6 +39,30 @@ paths:
         201:
           description: The given logs gathering for active repos was scheduled.
 
+  /pypi/ingest/{package_name}:
+    post:
+      tags: [PyPI]
+      operationId: thoth.selinon_api.api_v1.post_py_ingest_project
+      summary: Run ingestion of data from PyPI for the given project.
+      parameters:
+        - name: package_name
+          in: path
+          description: >
+            Name of project/package.
+          type: string
+      responses:
+        201:
+          description: The given PyPI ingestion was scheduled.
+
+  /pypi/ingest:
+    post:
+      tags: [Thoth Graph database]
+      operationId: thoth.selinon_api.api_v1.post_ingest
+      summary: Run ingestion of data from PyPI for all PyPI packages.
+      responses:
+        201:
+          description: The given PyPI ingestion was scheduled.
+
 parameters:
   flow_name:
     name: flow_name

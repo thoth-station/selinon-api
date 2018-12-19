@@ -21,7 +21,10 @@ def post_run_flow(flow_name, node_args=None):
     """
     logger.info("Scheduling flow '%s' with node_args: '%s'", flow_name, node_args)
     dispatcher = Connection.run_selinon_flow(flow_name, node_args)
-    return {"dispatcher_id": dispatcher.id, "flow_name": flow_name, "node_args": node_args}, 201
+    try:
+        return {"dispatcher_id": dispatcher.id, "flow_name": flow_name, "node_args": node_args}, 201
+    except Exception as exc:
+        return {"error": str(exc)}, 400
 
 
 def get_flows():
@@ -29,7 +32,7 @@ def get_flows():
 
     :return: a list of flows available in Selinon configuration.
     """
-    from thoth_worker import get_config_files
+    from thoth.worker import get_config_files
     from selinon import Config
 
     Config.set_config_yaml(*get_config_files())
@@ -39,3 +42,11 @@ def get_flows():
 def post_sync():
     """Perform sync to the graph database."""
     return post_run_flow('sync_flow', {})
+
+
+def post_pypi_ingest_project(package_name):
+    return post_run_flow("pypi_project", {"package_name": package_name})
+
+
+def post_pypi_ingest():
+    return post_run_flow("pypi")

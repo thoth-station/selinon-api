@@ -7,14 +7,14 @@ name = "pypi"
 flask = "*"
 gunicorn = "*"
 connexion = {extras = ["swagger-ui"], version = "*"}
-selinon = {git = "https://github.com/selinon/selinon"}
+selinon = "*"
 celery = ">=4"
 pymongo = "*"
 sqlalchemy = "*"
 sqlalchemy-utils = "*"
 redis = "*"
 "boto3" = "*"
-thoth-worker = {git = "https://github.com/fridex/thoth-selinon-worker.git"}
+thoth-worker = {git = "https://github.com/thoth-station/selinon-worker.git"}
 
 [dev-packages]
 
