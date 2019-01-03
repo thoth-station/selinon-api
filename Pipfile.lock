@@ -31,18 +31,18 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:09d1ae44f15659e425b7526de452bfa3840e12dd3e08dd0b067a78f619e997b5",
-                "sha256:88233f9bdc1e6ee58c9489cef6c573bf7e660acfcc1597bc3ff765a065e1a0f0"
+                "sha256:9fb45efe795e20da4a8332828af4907332e0e8746e90fbef5116206a807ee104",
+                "sha256:d37d99a3c7fb90610710d4e59298a8f4fc0900bf531a359935df53077789c7fa"
             ],
             "index": "pypi",
-            "version": "==1.9.68"
+            "version": "==1.9.72"
         },
         "botocore": {
             "hashes": [
-                "sha256:7fd7954f19a49c9794bed696c801f3dfd7bdde306d17c9bb9fb0c069e6b42e5a",
-                "sha256:f6dc444ca92f33e1a3129e39b2c6d9941e4931fda3f3aff02fe82290013ef2d0"
+                "sha256:8954f07d5d89c79e52becf3a344f32e22095b597665b11ba3d488a48797492b2",
+                "sha256:a2870ee32561c25ba1d5ed6b6bcfabeaafc02bd8b54b3a3b3925285697f0e449"
             ],
-            "version": "==1.12.68"
+            "version": "==1.12.72"
         },
         "celery": {
             "hashes": [
@@ -98,11 +98,11 @@
                 "swagger-ui"
             ],
             "hashes": [
-                "sha256:54bc34fae9d3bdb60b138776e3affc5d4ac20ab799cd0881dbf9ef48b33fef88",
-                "sha256:6f0169cc91ff389be628807c751ddd4d8ba79a594a7272c9d7663d243795b323"
+                "sha256:24a0f02e601c37de81840a91dff68bbfa48df819ac75b7f8a9cd7e0e2ec8af95",
+                "sha256:3511c369fb1fd1be56ac1d7ba2910f710f59b9cdb36338135afbf0fe51af189e"
             ],
             "index": "pypi",
-            "version": "==2.1.0"
+            "version": "==2.2.0"
         },
         "docutils": {
             "hashes": [
@@ -178,10 +178,10 @@
         },
         "kombu": {
             "hashes": [
-                "sha256:52763f41077e25fe7e2f17b8319d8a7b7ab953a888c49d9e4e0464fceb716896",
-                "sha256:9bf7d37b93249b76a03afb7bbcf7149a358b6079ca2431e725414b1caa10922c"
+                "sha256:1ef049243aa05f29e988ab33444ec7f514375540eaa8e0b2e1f5255e81c5e56d",
+                "sha256:3c9dca2338c5d893f30c151f5d29bfb81196748ab426d33c362ab51f1e8dbf78"
             ],
-            "version": "==4.2.2"
+            "version": "==4.2.2.post1"
         },
         "logutils": {
             "hashes": [
@@ -353,10 +353,10 @@
         },
         "sqlalchemy-utils": {
             "hashes": [
-                "sha256:d8c10eac729d9cdc22af694a1c2f144780787942df1eb70c0f0715d1fa6fcf9e"
+                "sha256:e198404f2794b6dfacc704fbee1d29721904d84eb6369e7f5ab512f8f76a011a"
             ],
             "index": "pypi",
-            "version": "==0.33.9"
+            "version": "==0.33.10"
         },
         "swagger-ui-bundle": {
             "hashes": [
@@ -368,7 +368,7 @@
         },
         "thoth-worker": {
             "git": "https://github.com/thoth-station/selinon-worker.git",
-            "ref": "7ae5e1f952f74ef52f6858c61b4ff720f039c25f"
+            "ref": "fbb8e8e0ac6b6fa378d051d9cd5e2fddd0f49b2f"
         },
         "urllib3": {
             "hashes": [
