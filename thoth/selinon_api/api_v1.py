@@ -22,7 +22,14 @@ def post_run_flow(flow_name, node_args=None, task_names=None):
     logger.info("Scheduling flow '%s' with node_args: '%s'", flow_name, node_args)
     dispatcher = Connection.run_selinon_flow(flow_name, node_args, task_names)
     try:
-        return {"dispatcher_id": dispatcher.id, "flow_name": flow_name, "node_args": node_args}, 201
+        return (
+            {
+                "dispatcher_id": dispatcher.id,
+                "flow_name": flow_name,
+                "node_args": node_args,
+            },
+            201,
+        )
     except Exception as exc:
         return {"error": str(exc)}, 400
 
@@ -41,7 +48,7 @@ def get_flows():
 
 def post_sync():
     """Perform sync to the graph database."""
-    return post_run_flow('sync_flow', {})
+    return post_run_flow("sync_flow", {})
 
 
 def post_pypi_ingest_project(package_name):
