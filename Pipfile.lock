@@ -368,7 +368,7 @@
         },
         "thoth-worker": {
             "git": "https://github.com/thoth-station/selinon-worker.git",
-            "ref": "fbb8e8e0ac6b6fa378d051d9cd5e2fddd0f49b2f"
+            "ref": "8468a35c0b28f1e8cc90cbe7fa069d9450efbb7a"
         },
         "urllib3": {
             "hashes": [
