@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def post_run_flow(flow_name, node_args=None):
+def post_run_flow(flow_name, node_args=None, task_names=None):
     """A low-level run flow API.
 
     :param flow_name: name of flow to be run
@@ -20,7 +20,7 @@ def post_run_flow(flow_name, node_args=None):
     :return: resulting dict for the request
     """
     logger.info("Scheduling flow '%s' with node_args: '%s'", flow_name, node_args)
-    dispatcher = Connection.run_selinon_flow(flow_name, node_args)
+    dispatcher = Connection.run_selinon_flow(flow_name, node_args, task_names)
     try:
         return {"dispatcher_id": dispatcher.id, "flow_name": flow_name, "node_args": node_args}, 201
     except Exception as exc:
