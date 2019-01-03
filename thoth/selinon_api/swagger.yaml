@@ -78,6 +78,14 @@ parameters:
     description: Flow arguments
     schema:
       $ref: "#/definitions/QueryKwargs"
+  task_names:
+    name: task_names
+    in: body
+    required: false
+    description: A list of task names that should be run in case of selective task flows.
+    type: array
+    items:
+      type: string
 
 definitions:
   QueryKwargs:
