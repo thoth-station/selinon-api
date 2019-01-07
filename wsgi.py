@@ -21,7 +21,7 @@ def base_url():
 
 
 if __name__ == '__main__':
-    appapplication.run(
+    application.run(
         port=int(os.environ.get('SERVICE_PORT', defaults.DEFAULT_SERVICE_PORT)),
         server='flask',
         debug=True
