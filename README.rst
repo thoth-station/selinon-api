@@ -16,6 +16,6 @@ The worker implements tasks that are grouped into flows. Results of tasks are st
 
 RabbitMQ is used as a message queue for message passing.
 
-.. figure:: https://raw.githubusercontent.com/thoth-station/selinon/master/fig/architecture.png
+.. figure:: https://raw.githubusercontent.com/thoth-station/selinon-api/master/fig/architecture.png
    :alt: Architecture overview.
    :align: center
