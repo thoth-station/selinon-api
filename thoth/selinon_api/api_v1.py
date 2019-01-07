@@ -19,7 +19,8 @@ def post_run_flow(flow_name, node_args=None, task_names=None):
     :param node_args: arguments supplied to flow
     :return: resulting dict for the request
     """
-    logger.info("Scheduling flow '%s' with node_args: '%s'", flow_name, node_args)
+    task_names = task_names.split(',') if task_names else None
+    logger.info("Scheduling flow '%s' with node_args: '%s' (task names: %s)", flow_name, node_args, task_names)
     dispatcher = Connection.run_selinon_flow(flow_name, node_args, task_names)
     try:
         return (
