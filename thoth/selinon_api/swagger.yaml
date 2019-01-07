@@ -17,6 +17,7 @@ paths:
       parameters:
         - $ref: "#/parameters/flow_name"
         - $ref: "#/parameters/node_args"
+        - $ref: "#/parameters/task_names"
       responses:
         201:
           description: The given flow was scheduled.
@@ -80,12 +81,10 @@ parameters:
       $ref: "#/definitions/QueryKwargs"
   task_names:
     name: task_names
-    in: body
+    in: query
     required: false
-    description: A list of task names that should be run in case of selective task flows.
-    type: array
-    items:
-      type: string
+    description: A comma separated list of task names that should be run in case of selective task flows.
+    type: string
 
 definitions:
   QueryKwargs:
