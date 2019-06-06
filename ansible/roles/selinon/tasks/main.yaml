@@ -107,13 +107,19 @@
       -p THOTH_CEPH_BUCKET="{{ CEPH_BUCKET }}" \
       -p THOTH_CEPH_BUCKET_PREFIX="{{ CEPH_BUCKET_PREFIX }}" \
       -p THOTH_S3_ENDPOINT_URL="{{ S3_ENDPOINT_URL }}" \
-      -p THOTH_S3_KEY_ID="{{ S3_KEY_ID }}" \
-      -p THOTH_S3_SECRET_KEY="{{ S3_SECRET_KEY }}"
+      -p THOTH_CEPH_KEY_ID="{{ S3_KEY_ID }}" \
+      -p THOTH_CEPH_SECRET_KEY="{{ S3_SECRET_KEY }}"
 
   - name: "Create worker-dispatcher DeploymentConfig from template"
     command: oc new-app --template {{ SELINON_NAMESPACE }}/worker-deploymentconfig \
       -p WORKER_NAME='worker-dispatcher' \
-      -p SELINON_DISPATCHER='1'
+      -p SELINON_DISPATCHER='1' \
+      -p THOTH_CEPH_BUCKET="{{ CEPH_BUCKET }}" \
+      -p THOTH_CEPH_BUCKET_PREFIX="{{ CEPH_BUCKET_PREFIX }}" \
+      -p THOTH_S3_ENDPOINT_URL="{{ S3_ENDPOINT_URL }}" \
+      -p THOTH_CEPH_KEY_ID="{{ S3_KEY_ID }}" \
+      -p THOTH_CEPH_SECRET_KEY="{{ S3_SECRET_KEY }}"
+
 
   #
   # RabbitMQ broker
