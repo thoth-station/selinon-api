@@ -7,14 +7,14 @@ name = "pypi"
 flask = "*"
 gunicorn = "*"
 connexion = {extras = ["swagger-ui"],version = "*"}
-selinon = "*"
-celery = ">=4"
+celery = ">=4,<5"
 pymongo = "*"
 sqlalchemy = "*"
 sqlalchemy-utils = "*"
 redis = "*"
 "boto3" = "*"
 thoth-worker = {git = "https://github.com/thoth-station/selinon-worker"}
+selinon = {extras = ["celery", "redis"], version = "*", git = "https://github.com/fridex/selinon@redis-no-password-fix"}
 
 [dev-packages]
 

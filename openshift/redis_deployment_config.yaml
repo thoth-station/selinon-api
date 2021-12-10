@@ -91,4 +91,4 @@ objects:
           - redis
         from:
           kind: ImageStreamTag
-          name: 'redis:3.2.11'
+          name: 'redis:6.2.6'
